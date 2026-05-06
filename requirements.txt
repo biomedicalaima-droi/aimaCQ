@@ -1,4 +1,7 @@
 streamlit
-pdfplumber
+numpy
+python-docx
 fpdf
+pdfplumber
+reportlab
 Pillow
