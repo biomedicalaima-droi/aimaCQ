@@ -44,7 +44,8 @@ def resource_path(relative_path):
 AIMA_LOGO_PATH = resource_path("aima_logo.png")
 #AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png"
 
-st.set_page_config(layout="wide", page_title="AIMA - Gestion de Devis & Factures")
+AIMA_LOGO_PATH = "aima_logo.png" 
+BOTTOM_LOGOS_PATH = "BOTOM_LOGOS.png"
 
 # --- INITIALISATION SESSION STATE ---
 if 'manual_items_dict' not in st.session_state:
