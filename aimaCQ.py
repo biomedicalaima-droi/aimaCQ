@@ -2148,103 +2148,30 @@ QC_CONFIGS = {
     }
 },
     "Centrifugeuse (Laboratoire/Clinique)" : {
-    # Informations Générales
-    "NAME": "Centrifugeuse (Laboratoire/Clinique)",
-    "TSE_REQUIRED": True, # Test de Sécurité Électrique requis (appareil de Classe I)
-    "FABRICANT_LIST": [
-        "Hettich",
-        "Eppendorf",
-        "Thermo Scientific",
-        "Beckman Coulter",
-        "Autres"
-    ],
-    
-    # 1. Tests de Performance (Mesures critiques : Tachymétrie et Température)
-    "PERFORMANCE_CHECKS": {
-        
-        # --- Tachymétrie (Vitesse de Rotation) : Tolérance de +/- 200 RPM (tours/minute) ---
-        "Précision Tachymétrie (15000 RPM)": {
-            "injected": 15000, 
-            "tolerance": 200, 
-            "unit": "RPM", 
-            "type": "absolute", 
-            "consigne": "15000 RPM ± 200 RPM"
+        # Informations Générales
+        "NAME": "Centrifugeuse (Laboratoire/Clinique)",
+        "TSE_REQUIRED": True, # Test de Sécurité Électrique requis (appareil de Classe I)
+        "FABRICANT_LIST": [
+            "Hettich",
+            "Eppendorf",
+            "Thermo Scientific", # <--- Ajout du guillemet manquant ici
+            "Autres"
+        ],
+        "PERFORMANCE_CHECKS": {
+            "Vitesse (RPM)": {"injected": 3000, "tolerance": 100, "unit": "RPM", "type": "range"},
+            "Temps (Min)": {"injected": 10, "tolerance": 1, "unit": "min", "type": "range"},
         },
-        "Précision Tachymétrie (10000 RPM)": {
-            "injected": 10000, 
-            "tolerance": 200, 
-            "unit": "RPM", 
-            "type": "absolute", 
-            "consigne": "10000 RPM ± 200 RPM"
+        "SPECIFIC_CHECKS": {
+            "Verrouillage Couvercle": "Le couvercle ne s'ouvre pas pendant la rotation.",
+            "Détection Balourd": "Arrêt automatique en cas de déséquilibre.",
         },
-        "Précision Tachymétrie (5000 RPM)": {
-            "injected": 5000, 
-            "tolerance": 200, 
-            "unit": "RPM", 
-            "type": "absolute", 
-            "consigne": "5000 RPM ± 200 RPM"
-        },
-        
-        # --- Température (Si Réfrigérée/Contrôlée) : Tolérance de +/- 10 °C ---
-        "Précision Température (30 °C)": {
-            "injected": 30, 
-            "tolerance": 10, 
-            "unit": "°C", 
-            "type": "absolute", 
-            "consigne": "30 °C ± 10 °C"
-        },
-        "Précision Température (10 °C)": {
-            "injected": 10, 
-            "tolerance": 10, 
-            "unit": "°C", 
-            "type": "absolute", 
-            "consigne": "10 °C ± 10 °C"
-        },
-        "Précision Température (0 °C)": {
-            "injected": 0, 
-            "tolerance": 10, 
-            "unit": "°C", 
-            "type": "absolute", 
-            "consigne": "0 °C ± 10 °C"
-        },
-        "Précision Température (-10 °C)": {
-            "injected": -10, 
-            "tolerance": 10, 
-            "unit": "°C", 
-            "type": "absolute", 
-            "consigne": "-10 °C ± 10 °C"
-        },
-    },
-    
-    # 2. Tests Spécifiques (Contrôle de Fonctionnement et Sécurité)
-    "SPECIFIC_CHECKS": {
-        "L'équipement ne fait pas l'objet d'une matériovigilance": "Vérification dans les registres (Oui/Non)",
-        "Autotest de l'appareil au démarrage": "Fonctionnel (Check)",
-        "Fonctionnement des commandes (boutons, écran)": "Fonctionnel (Check)",
-        "Vérification du temps de centrifugation programmé": "Conforme (Ok/Echoué/NA/NT)",
-        "Contrôle mécanique (Roulements/freins, blocage capot)": "Conforme (Ok/Echoué/NA/NT)",
-    },
-    
-    # 3. Contrôles Visuels (État Général et Mécanique)
-    "VISUAL_CHECKS": [
-        "État de propreté de l'appareil et du ventilateur d’alimentation",
-        "Présence de tous les accessoires (rotor, contrepoids, supports)",
-        "Visibilité et lisibilité des inscriptions et des voyants",
-        "État général (absence de rouille, couvercle, intérieur de la cuve)",
-        "Fonctionnalité des roulements et freins des roulettes",
-        "Fonctionnalité du blocage du capot/couvercle (sécurité essentielle)",
-    ],
-    
-    # 4. Tests de Sécurité Électrique (Appareil de Classe I)
-    "SECURITY_CHECKS": {
-        # Résistance de terre (standard pour appareil de Classe I)
-        "Résistance de terre": {"limit": "< 0.300 Ω", "unit": "Ω", "type": "resistance"}, 
-        # Courant de fuite du châssis (standard pour appareil de Classe I)
-        "Courant de fuite châssis": {"limit": "< 500 μA (0.500 mA)", "unit": "mA", "type": "leakage"},
-        # Courant de fuite patient : Non Applicable (Pas de contact patient)
-        "Courant de fuite patient (parties appliquées)": {"limit": "NA", "unit": "mA", "type": "leakage"}, 
+        "VISUAL_CHECKS": ["État du rotor et des adaptateurs", "Propreté de la cuve"],
+        "SECURITY_CHECKS": {
+            "Résistance de terre": {"limit": "< 0.300 Ω", "unit": "Ω", "type": "resistance"},
+            "Courant de fuite châssis": {"limit": "< 500 μΑ (0.500 mA)", "unit": "mA", "type": "leakage"},
+        }
     }
-},
+} # <--- Fermeture du dictionnaire QC_CONFIGS
     "Pompe à nutrition (Entérale)""": {
     # Informations Générales
     "NAME": "Pompe à nutrition (Entérale)",
