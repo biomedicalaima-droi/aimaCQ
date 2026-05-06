@@ -116,10 +116,20 @@ def delete_manual_item(index):
 
 
 # Logo AIMA (haut gauche)
-AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png" # REMPLACEZ PAR LE CHEMIN DU LOGO AIMA 
+#AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png" # REMPLACEZ PAR LE CHEMIN DU LOGO AIMA 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+AIMA_LOGO_PATH = resource_path("aima_logo.png")
+#AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png"
 
+AIMA_LOGO_PATH = "aima_logo.png" 
+BOTTOM_LOGOS_PATH = "BOTOM_LOGOS.png"
 # Bloc de logos partenaires/certifications (bas)
-BOTTOM_LOGOS_PATH = "C:/Users/TELEA133007WSM1/Desktop/BOTOM_LOGOS.png" # REMPLACEZ PAR LE CHEMIN DU BLOC DE LOGOS
+#BOTTOM_LOGOS_PATH = "C:/Users/TELEA133007WSM1/Desktop/BOTOM_LOGOS.png" # REMPLACEZ PAR LE CHEMIN DU BLOC DE LOGOS
 
 ALTERNATIVE_NORMS = [
     "IEC 61010-1 (Exigences de sécurité pour les équipements électriques de laboratoire)",
