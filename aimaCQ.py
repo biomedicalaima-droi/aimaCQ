@@ -44,8 +44,7 @@ def resource_path(relative_path):
 AIMA_LOGO_PATH = resource_path("aima_logo.png")
 #AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png"
 
-AIMA_LOGO_PATH = "aima_logo.png" 
-BOTTOM_LOGOS_PATH = "BOTOM_LOGOS.png"
+st.set_page_config(layout="wide", page_title="AIMA - Gestion de Devis & Factures")
 
 # --- INITIALISATION SESSION STATE ---
 if 'manual_items_dict' not in st.session_state:
@@ -116,20 +115,10 @@ def delete_manual_item(index):
 
 
 # Logo AIMA (haut gauche)
-#AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png" # REMPLACEZ PAR LE CHEMIN DU LOGO AIMA 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
-AIMA_LOGO_PATH = resource_path("aima_logo.png")
-#AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png"
+AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png" # REMPLACEZ PAR LE CHEMIN DU LOGO AIMA 
 
-AIMA_LOGO_PATH = "aima_logo.png" 
-BOTTOM_LOGOS_PATH = "BOTOM_LOGOS.png"
 # Bloc de logos partenaires/certifications (bas)
-#BOTTOM_LOGOS_PATH = "C:/Users/TELEA133007WSM1/Desktop/BOTOM_LOGOS.png" # REMPLACEZ PAR LE CHEMIN DU BLOC DE LOGOS
+BOTTOM_LOGOS_PATH = "C:/Users/TELEA133007WSM1/Desktop/BOTOM_LOGOS.png" # REMPLACEZ PAR LE CHEMIN DU BLOC DE LOGOS
 
 ALTERNATIVE_NORMS = [
     "IEC 61010-1 (Exigences de sécurité pour les équipements électriques de laboratoire)",
@@ -725,6 +714,125 @@ QC_CONFIGS = {
             "Courant de fuite patient": {"limit": "< 100 μA (0.100 mA)", "unit": "mA", "type": "leakage"},
         }
     },
+    
+    "Colposcope": {
+    "NAME": "Colposcope (Vidéo / Optique)",
+    "TSE_REQUIRED": True, # Requis car branché sur secteur
+    "FABRICANT_LIST": [
+        "Zeiss",
+        "Leisegang",
+        "Olympus",
+        "Hill-Rom (Welch Allyn)",
+        "Alltion",
+        "Autres"
+    ],
+
+    # 1. Tests de Performance (Stabilité et Intensité)
+    "PERFORMANCE_CHECKS": {
+        # Intensité lumineuse (Si mesurée avec un luxmètre)
+        "Intensité Lumineuse Maximale": {
+            "injected": 30000, 
+            "tolerance": 5000, 
+            "unit": "Lux", 
+            "type": "range",
+            "consigne": "Vérifier que l'intensité à la distance de travail est suffisante."
+        },
+        # Alignement optique (Qualitatif mais crucial)
+        "Parallélisme des axes optiques": {
+            "injected": 1, 
+            "tolerance": 0, 
+            "unit": "bin", 
+            "type": "binary",
+            "consigne": "Absence de vision double (diplopie) lors de l'observation."
+        },
+    },
+
+    # 2. Tests Spécifiques (Mécanique et Optique)
+    "SPECIFIC_CHECKS": {
+        "Fluidité des articulations / Bras": "Mouvement fluide et maintien de la position sans dérive.",
+        "Fonctionnement du zoom / changeur de grossissement": "Changement net sans blocage mécanique.",
+        "Mise au point (Focus)": "Réglage fin du focus opérationnel et fluide.",
+        "Filtre vert (Contrastes)": "Mise en place et retrait du filtre vert fonctionnels.",
+        "Qualité de l'image vidéo (si équipé)": "Image sur moniteur nette, sans neige ni parasites.",
+        "Réglage de l'intensité lumineuse": "Variateur fonctionnel de 0 à 100%.",
+    },
+
+    # 3. Contrôles Visuels
+    "VISUAL_CHECKS": [
+        "Vérifier la propreté des lentilles d'objectifs et des oculaires (pas de traces de doigts/poussière)",
+        "Vérifier l'absence de moisissures (champignons) à l'intérieur de l'optique",
+        "Vérifier l'état des câbles de la source lumineuse (si déportée)",
+        "Vérifier l'état du pied et le blocage des roulettes",
+        "Vérifier l'intégrité de la fibre optique (pas de points noirs excessifs si câble fibre)",
+        "Vérifier la stabilité de la tête du colposcope sur son support",
+    ],
+
+    # 4. Tests de Sécurité Électrique (Généralement Classe I ou II selon modèle)
+    "SECURITY_CHECKS": {
+        "Résistance de terre": {"limit": "< 0.300 Ω", "unit": "Ω", "type": "resistance"}, 
+        "Courant de fuite châssis": {"limit": "< 500 μA (0.500 mA)", "unit": "mA", "type": "leakage"},
+        # Note : Le colposcope n'a généralement pas de "partie appliquée" directement au patient 
+        # (contact indirect), donc le courant de fuite patient est rarement testé sauf si caméra endocavitaire.
+    }
+},
+    
+   "Lampe d'Examen": {
+    "NAME": "Lampe d'Examen / Scialytique de Soins",
+    "TSE_REQUIRED": True,
+    "FABRICANT_LIST": [
+        "Dr. Mach",
+        "Steris (Hausted)",
+        "Drimane",
+        "Welch Allyn",
+        "Burton Medical",
+        "Autres"
+    ],
+
+    # 1. Tests de Performance (Éclairement et Focalisation)
+    "PERFORMANCE_CHECKS": {
+        # Mesure de l'éclairement central (Ec) à 1 mètre (ou distance spécifiée)
+        "Intensité Lumineuse": {
+            "injected": 40000, 
+            "tolerance": 10000, 
+            "unit": "Lux", 
+            "type": "range",
+            "consigne": "Vérifier la puissance lumineuse maximale selon les données constructeur."
+        },
+        # Diamètre du champ lumineux (d10)
+        "Diamètre du Spot (à 1m)": {
+            "injected": 15, 
+            "tolerance": 5, 
+            "unit": "cm", 
+            "type": "range",
+            "consigne": "Vérifier que le spot lumineux est net et bien centré."
+        },
+    },
+
+    # 2. Tests Spécifiques (Mécanique et Thermique)
+    "SPECIFIC_CHECKS": {
+        "Stabilité du bras (Équilibrage)": "Le bras doit rester immobile dans toutes les positions sans dérive.",
+        "Rotation des axes (Butées)": "Rotation fluide sans point dur et arrêt aux butées de sécurité.",
+        "Variation d'intensité (Dimming)": "Réglage de la luminosité progressif et sans scintillement (flicker).",
+        "Température de couleur (Kelvin)": "Lumière blanche constante (généralement entre 4000K et 4500K).",
+        "Test de l'interrupteur": "Mise en marche et arrêt francs.",
+    },
+
+    # 3. Contrôles Visuels (Intégrité et Hygiène)
+    "VISUAL_CHECKS": [
+        "Vérifier l'état de la coupole et l'absence de fissures sur le diffuseur",
+        "Vérifier la propreté de la poignée stérilisable (ou présence de housses)",
+        "Vérifier l'état des câbles d'alimentation (souvent très sollicités par les mouvements)",
+        "Vérifier l'absence de bruits anormaux lors des mouvements du bras",
+        "Vérifier la fixation au mur, au plafond ou la stabilité du pied roulant",
+        "Contrôler l'état des LED (vérifier qu'aucune source n'est grillée)",
+    ],
+
+    # 4. Tests de Sécurité Électrique
+    "SECURITY_CHECKS": {
+        "Résistance de terre": {"limit": "< 0.300 Ω", "unit": "Ω", "type": "resistance"},
+        "Courant de fuite châssis": {"limit": "< 500 μA (0.500 mA)", "unit": "mA", "type": "leakage"},
+    }
+}, 
         "Stérilisateur - Autoclave" : {
         # Informations Générales
            "NAME": "Autoclave / Stérilisateur à vapeur",
