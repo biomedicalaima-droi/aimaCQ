@@ -298,6 +298,8 @@ ECG_CONFIG_FULL = {
 }
 
 
+
+
 QC_CONFIGS = {
     "Électrocardiographe (ECG)": ECG_CONFIG_FULL,
     # --- AJOUT DU NOUVEAU DISPOSITIF ICI ---
@@ -515,6 +517,99 @@ QC_CONFIGS = {
         # Courant de fuite patient (Pièce appliquée de Type CF)
         "Courant de fuite patient (parties appliquées)": {"limit": "< 10 μA (0.010 mA)", "unit": "mA", "type": "leakage"}, 
     }
+    },
+    
+"Cardiotocographe (CTG)": {
+        "NAME": "Cardiotocographe (CTG / Moniteur Fœtal)",
+        "TSE_REQUIRED": True, # Test de Sécurité Électrique requis
+        "FABRICANT_LIST": [
+            "GE Healthcare (Corometrics)",
+            "Philips Healthcare",
+            "Huntleigh",
+            "Schiller",
+            "Bionet",
+            "Autres"
+        ],
+        
+        # 1. Tests de Performance (Exactitude des mesures physiologiques)
+        "PERFORMANCE_CHECKS": {
+            # Fréquence Cardiaque Fœtale (FHR) via Simulateur d'Ultrasound/CTG
+            "Fréquence Cardiaque Fœtale (120 bpm)": {
+                "injected": 120, 
+                "tolerance": 2, 
+                "unit": "bpm", 
+                "type": "absolute", 
+                "consigne": "120 bpm ± 2 bpm"
+            },
+            "Fréquence Cardiaque Fœtale (140 bpm)": {
+                "injected": 140, 
+                "tolerance": 2, 
+                "unit": "bpm", 
+                "type": "absolute", 
+                "consigne": "140 bpm ± 2 bpm"
+            },
+            "Fréquence Cardiaque Fœtale (160 bpm)": {
+                "injected": 160, 
+                "tolerance": 2, 
+                "unit": "bpm", 
+                "type": "absolute", 
+                "consigne": "160 bpm ± 2 bpm"
+            },
+            
+            # Vitesse de défilement du papier thermique ou enregistreur (Standard : 1 cm/min ou 3 cm/min)
+            "Vitesse d'enregistrement papier (3 cm/min)": {
+                "injected": 3.0, 
+                "tolerance": 0.3, 
+                "unit": "cm/min", 
+                "type": "absolute", 
+                "consigne": "3 cm/min ± 10%"
+            },
+            
+            # Paramètres optionnels intégrés (Maternal SpO2 / NIBP si le CTG est combiné comme le Corometrics 250cx)
+            "Maternal SpO2 (97%)": {
+                "injected": 97, 
+                "tolerance": 2, 
+                "unit": "%", 
+                "type": "absolute", 
+                "consigne": "97% ± 2%"
+            },
+            "Maternal PNI / NIBP (120 mmHg)": {
+                "injected": 120, 
+                "tolerance": 5, 
+                "unit": "mmHg", 
+                "type": "absolute", 
+                "consigne": "120 mmHg ± 5 mmHg"
+            },
+        },
+        
+        # 2. Tests Spécifiques (Fonctionnement des sondes, contractions et alarmes)
+        "SPECIFIC_CHECKS": {
+            "L'équipement ne fait pas l'objet d'une matériovigilance": "Vérification dans les registres (Oui/Non)",
+            "Autotest de l'appareil et des voyants au démarrage": "Fonctionnel (Ok/Echoué/NA)",
+            "Fonctionnement de la sonde US Doppler (Détection du signal fœtal)": "Fonctionnel (Ok/Echoué/NA)",
+            "Fonctionnement du Toco-transducteur (Contractions utérines et bouton de tare/zéro)": "Fonctionnel (Ok/Echoué/NA)",
+            "Marqueur d'événements fœtaux (bouton télécommande patient)": "Fonctionnel (Ok/Echoué/NA)",
+            "Qualité de l'impression thermique ou enregistrement numérique": "Impression nette, sans lignes manquantes (Ok/Echoué/NA)",
+            "Fonctionnement sur batterie interne et passage secteur/batterie": "Fonctionnel (Ok/Echoué/NA)",
+            "Contrôle global des alarmes (FHR Haute/Basse, déconnexion sonde)": "Alarmes sonores et visuelles opérationnelles (Ok/Echoué/NA)",
+        },
+        
+        # 3. Contrôles Visuels (État Général, Boîtier, Connectiques, Sondes)
+        "VISUAL_CHECKS": [
+            "État de propreté générale du moniteur et du chariot",
+            "Intégrité physique des boîtiers, de l'écran et des boutons de commande",
+            "État des câbles et fiches de raccordement des sondes (absence de coupures ou broches tordues)",
+            "État de la membrane des transducteurs (notamment le Toco)",
+            "Présence et bon état des sangles de fixation abdominale",
+            "Disponibilité du papier d'enregistrement thermique",
+        ],
+        
+        # 4. Tests de Sécurité Électrique (IEC 62353 - Classe I, Partie appliquée Type BF)
+        "SECURITY_CHECKS": {
+            "Résistance de terre": {"limit": "< 0.300 Ω", "unit": "Ω", "type": "resistance"}, 
+            "Courant de fuite châssis": {"limit": "< 500 μA (0.500 mA)", "unit": "mA", "type": "leakage"},
+            "Courant de fuite patient (Sondes US / Toco / ECG mat.)": {"limit": "< 100 μA (0.100 mA)", "unit": "mA", "type": "leakage"}, 
+        }
     },
     "Défibrillateur": {
         # Informations Générales
@@ -1652,7 +1747,7 @@ QC_CONFIGS = {
 },
     "Moniteur Multiparamétrique" : {
     # Informations Générales
-    "NAME": "Moniteur Multiparamétrique",
+    "NAME": "Monitepnuur Multiparamétrique",
     "TSE_REQUIRED": True, # Test de Sécurité Électrique requis
     "FABRICANT_LIST": [
         "Philips",
@@ -1805,6 +1900,123 @@ QC_CONFIGS = {
         # Courant de fuite du châssis
         "Courant de fuite châssis": {"limit": "< 500 μA (0.500 mA)", "unit": "mA", "type": "leakage"},
         # Courant de fuite patient (Les modules ECG et PNI sont des parties appliquées Type CF ou BF)
+        "Courant de fuite patient (parties appliquées)": {"limit": "< 100 μA (0.100 mA)", "unit": "mA", "type": "leakage"}, 
+    }
+},
+    
+    "Moniteur Multiparamétrique (PNI / SpO2)" : {
+    # Informations Générales
+    "NAME": "Moniteur Multiparamétrique (PNI / SpO2)",
+    "TSE_REQUIRED": True, # Test de Sécurité Électrique requis
+    "FABRICANT_LIST": [
+        "Welch Allyn",
+        "GE Healthcare",
+        "Mindray",
+        "Omron",
+        "Bionet",
+        "Masimo",
+        "Nellcor (Medtronic)",
+        "Nonin Medical",
+        "Philips",
+        "Autres"
+    ],
+    
+    # 1. Tests de Performance (Mesures critiques : PNI et SpO2)
+    "PERFORMANCE_CHECKS": {
+        # --- MODULE PNI ---
+        # (Tolérance de ± 8 mmHg pour les pressions Systolique et Diastolique)
+        "Précision PNI (Basse - 80/40 mmHg)": {
+            "injected": 80, # Référence Systolique
+            "tolerance": 8, 
+            "unit": "mmHg (Sys)", 
+            "type": "absolute", 
+            "consigne": "Systolique et Diastolique ± 8 mmHg"
+        },
+        "Précision PNI (Moyenne - 120/80 mmHg)": {
+            "injected": 120, 
+            "tolerance": 8, 
+            "unit": "mmHg (Sys)", 
+            "type": "absolute", 
+            "consigne": "Systolique et Diastolique ± 8 mmHg"
+        },
+        "Précision PNI (Haute - 180/140 mmHg)": {
+            "injected": 180, 
+            "tolerance": 8, 
+            "unit": "mmHg (Sys)", 
+            "type": "absolute", 
+            "consigne": "Systolique et Diastolique ± 8 mmHg"
+        },
+        "Précision PNI (Néonat - 70/40 mmHg)": {
+            "injected": 70, 
+            "tolerance": 8, 
+            "unit": "mmHg (Sys)", 
+            "type": "absolute", 
+            "consigne": "Systolique et Diastolique Néonat ± 8 mmHg"
+        },
+        
+        # --- MODULE SpO2 ---
+        # SpO2 Basse (cible 80%, tolérance ± 3%)
+        "Précision SpO2 (Basse - 80%)": {
+            "injected": 80, 
+            "tolerance": 3, 
+            "unit": "% SpO2", 
+            "type": "absolute", 
+            "consigne": "80% ± 3%"
+        },
+        # SpO2 Intermédiaire (cible 93%, tolérance ± 3%)
+        "Précision SpO2 (Intermédiaire - 93%)": {
+            "injected": 93, 
+            "tolerance": 3, 
+            "unit": "% SpO2", 
+            "type": "absolute", 
+            "consigne": "93% ± 3%"
+        },
+        # SpO2 Haute (cible 97%, tolérance ± 3%)
+        "Précision SpO2 (Haute - 97%)": {
+            "injected": 97, 
+            "tolerance": 3, 
+            "unit": "% SpO2", 
+            "type": "absolute", 
+            "consigne": "97% ± 3%"
+        },
+        # Fréquence Cardiaque (Pouls) – Cible 120 bpm
+        "Précision Pouls SpO2 (120 bpm)": {
+            "injected": 120, 
+            "tolerance": 5, 
+            "unit": "bpm", 
+            "type": "absolute", 
+            "consigne": "120 bpm ± 5 bpm"
+        },
+    },
+    
+    # 2. Tests Spécifiques (Contrôle de Fonctionnement et Alarmes)
+    "SPECIFIC_CHECKS": {
+        "L'équipement ne fait pas l'objet d'une matériovigilance": "Vérification dans les registres (Oui/Non)",
+        "Autotest de l'appareil au démarrage": "Fonctionnel (Check)",
+        "Fonctionnement des commandes (boutons, écran tactile, voyants)": "Fonctionnel (Check)",
+        "Fonctionnement sur pile/batterie (si équipé)": "Autonomie fonctionnelle (Check)",
+        "Contrôle de l'étanchéité du circuit PNI et du gonflage maximal (sur-pression)": "Conforme (Check)",
+        "Contrôle des alarmes PNI (Seuil Bas/Haut, brassard déconnecté, fuite)": "Alarmes fonctionnelles (Ok/Echoué/NA/NT)",
+        "Contrôle des alarmes SpO2 (Seuil Bas/Haut, sonde déconnectée)": "Alarmes fonctionnelles (Ok/Echoué/NA/NT)",
+        "Enregistrement et impression des paramètres patient (si équipé)": "Fonctionnel (Ok/Echoué/NA/NT)",
+    },
+    
+    # 3. Contrôles Visuels (État Général et Mécanique)
+    "VISUAL_CHECKS": [
+        "État de propreté de l'appareil et du ventilateur d’alimentation",
+        "Présence et état de tous les accessoires (câble secteur, tubes PNI, brassards Adulte/Néonat, sondes SpO2 de différents types)",
+        "Visibilité et lisibilité des inscriptions et des étiquettes",
+        "Contrôle mécanique (fixation sur le pied, roulements et freins des roulettes, si mobile)",
+        "État général de l'appareil",
+    ],
+    
+    # 4. Tests de Sécurité Électrique (Type BF - Le brassard et la sonde sont des parties appliquées)
+    "SECURITY_CHECKS": {
+        # Résistance de terre (pour appareil de Classe I)
+        "Résistance de terre": {"limit": "< 0.300 Ω", "unit": "Ω", "type": "resistance"}, 
+        # Courant de fuite du châssis
+        "Courant de fuite châssis": {"limit": "< 500 μA (0.500 mA)", "unit": "mA", "type": "leakage"},
+        # Courant de fuite patient (Brassard PNI + Sonde SpO2 = Parties appliquées Type BF)
         "Courant de fuite patient (parties appliquées)": {"limit": "< 100 μA (0.100 mA)", "unit": "mA", "type": "leakage"}, 
     }
 },
@@ -3374,13 +3586,10 @@ def generate_pdf_report(data: Dict[str, Any], config: Dict[str, Any]):
             'Courant de fuite châssis',
         ]
         
-        for check_name in secu_items_config:
-            if check_name not in config['SECURITY_CHECKS']:
-                 continue
-            
+        for check_name in config.get('SECURITY_CHECKS', {}).keys():
             result = data.get('security_results', {}).get(check_name, {})
             
-            statut_display = result.get('statut', 'N/A')
+            statut_display = result.get('statte', result.get('statut', 'N/A'))
             lim_display = result.get('lim_str', 'N/A')
             mesure_display = result.get('mesure_str', 'N/A')
             
