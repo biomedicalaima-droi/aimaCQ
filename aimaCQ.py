@@ -3174,22 +3174,23 @@ def first_page_header_logo(canvas, doc, config_name):
     top_y = A4[1] - margin + 20 
     left_x = margin
     
-    # --- GAUCHE: Logo AIMA --- (Cette partie reste inchangée pour garder le logo)
+    # --- GAUCHE: Logo AIMA ---
     logo_height = 75
-    logo_width = 120  # Ajustez si nécessaire pour respecter les proportions
+    logo_width = 120  
     try:
-        # Tente d'utiliser le chemin du logo AIMA (assurez-vous que le chemin est correct)
-        canvas.drawImage(AIMA_LOGO_PATH, left_x, top_y - logo_height, 
+        # Wrap the path with ImageReader to be safe and robust
+        logo_img = ImageReader(AIMA_LOGO_PATH)
+        canvas.drawImage(logo_img, left_x, top_y - logo_height, 
                          width=logo_width, height=logo_height, 
                          mask='auto')
         text_start_y = top_y - logo_height - 15 
         
-    except:
-        # Fallback au texte si le logo n'est pas trouvé ou si le chemin est invalide
+    except Exception as e:
+        # Fallback au texte si le logo n'est pas trouvé
         canvas.setFont('Helvetica-Bold', 12)
         canvas.drawString(left_x, top_y - 30, "Allons Imaginer un")
         canvas.drawString(left_x, top_y - 45, "Monde d'Amitiés")
-        text_start_y = top_y - 40 # Position du titre du rapport
+        text_start_y = top_y - 40
 
     # ----------------------------------------------------------------
     # DROITE: Titre du Rapport
