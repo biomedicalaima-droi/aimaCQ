@@ -114,11 +114,8 @@ def delete_manual_item(index):
 # Pour Streamlit, ces fichiers doivent être accessibles.
 
 
-# Logo AIMA (haut gauche)
-AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png" # REMPLACEZ PAR LE CHEMIN DU LOGO AIMA 
-
-# Bloc de logos partenaires/certifications (bas)
-BOTTOM_LOGOS_PATH = "C:/Users/TELEA133007WSM1/Desktop/BOTOM_LOGOS.png" # REMPLACEZ PAR LE CHEMIN DU BLOC DE LOGOS
+AIMA_LOGO_PATH = resource_path("aima_logo.png")
+BOTTOM_LOGOS_PATH = resource_path("BOTOM_LOGOS.png")
 
 ALTERNATIVE_NORMS = [
     "IEC 61010-1 (Exigences de sécurité pour les équipements électriques de laboratoire)",
