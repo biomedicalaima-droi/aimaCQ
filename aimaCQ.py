@@ -42,7 +42,7 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 AIMA_LOGO_PATH = resource_path("aima_logo.png")
-#AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png"
+AIMA_LOGO_PATH = "C:/Users/perso/Desktop/aima_logo.png"
 
 st.set_page_config(layout="wide", page_title="AIMA - Gestion de Devis & Factures")
 
